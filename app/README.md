@@ -1,17 +1,19 @@
 # Course Enrollment Management API
 
-A simple **RESTful API** built with **FastAPI** to manage course enrollments.
+A **RESTful API** built with **FastAPI** to manage course enrollments for students and admins.
+
+---
 
 ## Features
 
 - Create and view users (students & admins)
 - Publicly view courses
 - Admins can create, update, and delete courses
-- Students can enroll and deregister themselves from courses
+- Students can enroll in and deregister from courses
 - Admins can view all enrollments and force-deregister students
-- Role-based access control using `X-User-ID` header
-- In-memory data storage (no database)
-- Automated tests with pytest
+- Role-based access control via `X-User-Role` header
+- In-memory data storage (no database required)
+- Fully tested with **pytest**
 
 ---
 
@@ -33,7 +35,7 @@ course-enrollment-api/
 │ ├── main.py
 │ ├── models.py
 │ ├── schemas.py
-│ ├── database.py
+│ ├── storage.py
 │ ├── dependencies.py
 │ └── routers/
 │ ├── init.py
@@ -56,22 +58,27 @@ course-enrollment-api/
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Oluwaseunolaoluwaajayi/COURSE-ENROLLMENT-API.git
 cd course-enrollment-api
 
 2. Create and activate a virtual environment
 
 Windows (PowerShell):
-python -m venv env
-.\env\Scripts\Activate.ps1
 
 python -m venv env
 .\env\Scripts\Activate.ps1
+
+Linux / MacOS:
+
+python3 -m venv env
+source env/bin/activate
+
+3. Install dependencies
 
 pip install -r requirements.txt
 
+4. Run the API
 uvicorn app.main:app --reload
-The API will be available at:
 
 Base URL: http://127.0.0.1:8000
 
@@ -83,13 +90,15 @@ OpenAPI JSON: http://127.0.0.1:8000/api/v1/openapi.json
 
 All endpoints are versioned under /api/v1.
 
-Authentication / User Identification
 
-No authentication (JWT or sessions) is used.
+User Identification
 
-Instead, the API identifies users using a request header:
+No authentication is implemented.
+Users are identified by passing the role header in requests:
 
-X-User-ID: 1
+X-User-Role: student
+X-User-Role: admin
+
 
 Running Tests
 
@@ -99,11 +108,5 @@ Run the full test suite:
 
 pytest
 
-Notes
 
-All data is stored in memory
-
-Restarting the server resets all data
-
-HTTP status codes follow REST conventions (201, 204, 403, etc.)
 ```
