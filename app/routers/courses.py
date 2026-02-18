@@ -14,7 +14,7 @@ def create_course(
     if x_user_role != "admin":
         raise HTTPException(status_code=403, detail="Admin only")
 
-    # Unique course code check
+    
     for c in courses.values():
         if c["code"] == course.code:
             raise HTTPException(status_code=400, detail="Course code already exists")
